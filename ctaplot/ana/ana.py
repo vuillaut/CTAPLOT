@@ -8,6 +8,7 @@ import numpy as np
 from ..io import dataset as ds
 from scipy.stats import binned_statistic, norm
 from astropy.io.ascii import read
+import astropy.units as u
 
 _relative_scaling_method = 's1'
 
@@ -489,7 +490,7 @@ def energy_resolution_per_energy(simu_energy, reco_energy,
     res_e = []
     irf = irf_cta()
     for i, e in enumerate(irf.E):
-        mask = (reco_energy > irf.E_bin[i]) & (reco_energy < irf.E_bin[i + 1])
+        mask = (reco_energy > irf.E_bin[i]*u.TeV) & (reco_energy < irf.E_bin[i + 1]*u.TeV)
         res_e.append(energy_resolution(simu_energy[mask], reco_energy[mask],
                                        percentile=percentile,
                                        confidence_level=confidence_level,
